@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wallpaper_fake_call/app/data/config/menu.dart';
-import 'package:wallpaper_fake_call/app/data/config/url.dart';
-import 'package:wallpaper_fake_call/app/routes/app_pages.dart';
-import 'package:wallpaper_fake_call/app/services/ads_helper.dart';
-import 'package:wallpaper_fake_call/app/services/launcher.dart';
-import 'package:wallpaper_fake_call/app/widgets/banner.dart';
+
+import '../../../data/config/menu.dart';
+import '../../../data/config/url.dart';
+import '../../../routes/app_pages.dart';
+import '../../../services/ads_helper.dart';
+import '../../../services/launcher.dart';
+import '../../../widgets/banner.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -108,8 +109,8 @@ class _HomeViewState extends State<HomeView> {
             child: const Text("Wallpaper"),
           ),
 
-          // ads
-          BannerAdsWidget(type: AdSize.mediumRectangle),
+          // show banner ads
+          const BannerAdsWidget(type: AdSize.mediumRectangle),
 
           // video call
           ElevatedButton(

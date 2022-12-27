@@ -228,9 +228,9 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
   Future<void> setWallpaper(WallpaperItemViewController controller, ByteData file, int wallpaperLocation) async {
     if (GetPlatform.isAndroid) {
       Directory appDocDir = await getApplicationDocumentsDirectory();
-      await File(appDocDir.path + '/wallpaper${controller.currentIndex.value}').writeAsBytes(file.buffer.asUint8List());
-      log(appDocDir.path + '/wallpaper${controller.currentIndex.value}');
-      final wallpaperFile = appDocDir.path + '/wallpaper${controller.currentIndex.value}';
+      await File('${appDocDir.path}/wallpaper${controller.currentIndex.value}').writeAsBytes(file.buffer.asUint8List());
+      log('file path = ${appDocDir.path}/wallpaper${controller.currentIndex.value}');
+      final wallpaperFile = '${appDocDir.path}/wallpaper${controller.currentIndex.value}';
 
       AsyncWallpaper.setWallpaperFromFile(
         filePath: wallpaperFile,

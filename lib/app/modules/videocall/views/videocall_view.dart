@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wallpaper_fake_call/app/data/config/contact.dart';
+import 'package:wallpaper_fake_call/app/modules/makecall/controllers/makecall_controller.dart';
 import 'package:wallpaper_fake_call/app/widgets/banner.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/videocall_controller.dart';
 
 class VideocallView extends GetView<VideocallController> {
@@ -59,6 +61,8 @@ class _ContactWidgetState extends State<ContactWidget> {
   int offset = 0;
   int contactLenght = 0;
 
+  MakecallController makecallController = Get.find<MakecallController>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -92,10 +96,16 @@ class _ContactWidgetState extends State<ContactWidget> {
                             return Column(
                               children: [
                                 // avatar
-                                CircleAvatar(
-                                  radius: ((MediaQuery.of(context).size.width / 3) / 2) - 8,
-                                  //child: Text(contactList[offset + i].name),
-                                  backgroundImage: AssetImage('assets/avatars/${contactList[offset + i].avatar}'),
+                                InkWell(
+                                  onTap: () {
+                                    // make a call
+                                    makecallController.currentContact = contactList[offset + i];
+                                    Get.toNamed(Routes.MAKECALL);
+                                  },
+                                  child: CircleAvatar(
+                                    radius: ((MediaQuery.of(context).size.width / 3) / 2) - 8,
+                                    backgroundImage: AssetImage('assets/avatars/${contactList[offset + i].avatar}'),
+                                  ),
                                 ),
                                 const SizedBox(height: 8.0),
                                 // text

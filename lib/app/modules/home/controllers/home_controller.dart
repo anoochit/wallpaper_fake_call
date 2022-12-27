@@ -1,5 +1,3 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  //TODO: Implement MakecallController
-}
+class HomeController extends GetxController {}

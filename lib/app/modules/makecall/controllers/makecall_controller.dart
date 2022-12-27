@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 
-class MakecallController extends GetxController {
-  //TODO: Implement MakecallController
+import '../../../data/models/contact.dart';
 
+class MakecallController extends GetxController {
+// make call
+  late Contact currentContact;
+  Rx<bool> isCalling = false.obs;
+  Rx<bool> openCamera = false.obs;
 }

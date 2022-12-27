@@ -38,12 +38,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MAKECALL,
-      page: () => const MakecallView(),
+      page: () => MakecallView(),
       binding: MakecallBinding(),
     ),
     GetPage(
       name: _Paths.WALLPAPER_VIEW,
-      page: () => WallpaperItemView(),
+      page: () => const WallpaperItemView(),
       binding: WallpaperViewBinding(),
     ),
   ];

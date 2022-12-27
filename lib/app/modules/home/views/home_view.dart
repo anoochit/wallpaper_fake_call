@@ -11,8 +11,6 @@ import 'package:wallpaper_fake_call/app/services/ads_helper.dart';
 import 'package:wallpaper_fake_call/app/services/launcher.dart';
 import 'package:wallpaper_fake_call/app/widgets/banner.dart';
 
-import 'dart:io' show Platform;
-
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -160,6 +158,10 @@ class _HomeViewState extends State<HomeView> {
               if (menuItems[index].route.startsWith("http")) {
                 openUrl(url: menuItems[index].route);
               } else {
+                // if choose wallpaper or videocall show interstitial ads
+                if (menuItems[index].route.contains("wallpaper") || menuItems[index].route.contains("video")) {
+                  showInterstitialAd();
+                }
                 Get.toNamed(menuItems[index].route);
               }
             },

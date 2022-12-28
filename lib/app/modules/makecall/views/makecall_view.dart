@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 import 'package:get/get.dart';
 
@@ -30,6 +31,7 @@ class _MakecallViewState extends State<MakecallView> {
   @override
   void dispose() {
     super.dispose();
+    cameraController!.dispose();
   }
 
   isCameraAvailable() {
@@ -84,11 +86,12 @@ class _MakecallViewState extends State<MakecallView> {
 
   playRingtone() {
     if (GetPlatform.isAndroid) {
-      // play Android ringtone
-
-    } else if (GetPlatform.isIOS) {
-      // play iOS ringtone
-
+      FlutterRingtonePlayer.play(
+        android: AndroidSounds.ringtone,
+        ios: IosSounds.electronic,
+        looping: true,
+        asAlarm: true,
+      );
     }
   }
 
@@ -97,6 +100,10 @@ class _MakecallViewState extends State<MakecallView> {
     return Scaffold(
       body: GetBuilder<MakecallController>(
         builder: (controller) {
+          if (!controller.isCalling.value) {
+            log("play ring tone");
+            playRingtone();
+          }
           return Stack(
             children: [
               // background
@@ -159,6 +166,10 @@ class _MakecallViewState extends State<MakecallView> {
                             // accept call
                             InkWell(
                               onTap: () {
+                                // stop ring tone
+                                FlutterRingtonePlayer.stop();
+
+                                // set state calling
                                 controller.isCalling.value = true;
                                 controller.update();
                               },
@@ -178,12 +189,18 @@ class _MakecallViewState extends State<MakecallView> {
                             // end call
                             InkWell(
                               onTap: () {
+                                // stop ring tone
+                                FlutterRingtonePlayer.stop();
+
+                                // dispose camera controller
                                 if (cameraController != null) {
                                   cameraController!.stopImageStream();
-                                  cameraController!.dispose();
+                                  //cameraController!.dispose();
                                 }
+
+                                // set state calling and open camera
                                 controller.isCalling.value = false;
-                                controller.openCamera.value = false;
+                                controller.openCamera.value = true;
                                 Get.back();
                               },
                               child: const CircleAvatar(
@@ -201,7 +218,7 @@ class _MakecallViewState extends State<MakecallView> {
                       ),
                     )
                   :
-                  // calling
+                  // in calling
                   Padding(
                       padding: const EdgeInsets.only(bottom: 128.0),
                       child: Container(
@@ -209,7 +226,7 @@ class _MakecallViewState extends State<MakecallView> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // nothing
+                            // mic
                             const CircleAvatar(
                               radius: 40,
                               backgroundColor: Colors.grey,
@@ -227,10 +244,10 @@ class _MakecallViewState extends State<MakecallView> {
                               onTap: () {
                                 if (cameraController != null) {
                                   cameraController!.stopImageStream();
-                                  cameraController!.dispose();
+                                  //cameraController!.dispose();
                                 }
+                                controller.openCamera.value = true;
                                 controller.isCalling.value = false;
-                                controller.openCamera.value = false;
                                 Get.back();
                               },
                               child: const CircleAvatar(

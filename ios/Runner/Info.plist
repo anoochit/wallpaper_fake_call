@@ -54,8 +54,8 @@
 	<string>https</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>your usage description here</string>
+	<string>Accessing the Camera for Fake Video Calls</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>your usage description here</string>
+	<string>>Accessing the Microphone for Fake Video Calls</string>
 </dict>
 </plist>

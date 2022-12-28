@@ -12,6 +12,7 @@ dependencies:
   floating_action_bubble: ^1.1.4
   flutter:
     sdk: flutter
+  flutter_ringtone_player: ^3.2.0
   get: 4.6.5
   google_mobile_ads: ^2.3.0
   image_gallery_saver: ^1.7.1
@@ -30,4 +31,3 @@ flutter:
   assets:
     - assets/avatars/
     - assets/wallpapers/
-    - assets/videocall/

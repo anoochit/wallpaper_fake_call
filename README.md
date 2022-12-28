@@ -17,3 +17,5 @@ Asset files are stored in the assets folder, including avatars for contact image
 
 - `avatars` for a contact images.
 - `wallpaper` for a wallpaper images.
+
+The project developing with a Flutter 3.3.10, Dart 2.18.6, DevTools 2.15.0

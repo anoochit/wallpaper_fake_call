@@ -1,19 +1,19 @@
-# wallpaper_fake_call
+# Wallpaper & Fake Call
 
-A wallpaper, fake video all with ads.
+This app offers a range of wallpapers and fake call functionality, with ads included.
 
 ## Configuration
 
-The project has a configuration files in `lib/app/data/config/` as folowing
+The project has configuration files in `lib/app/data/config/` as follows:
 
-- `ads.dart` is ads ids.
-- `contact.dart` is a list contact data.
-- `menu.dart` is a list menu and route.
-- `theme.dart` is an App theme data.
-- `url.dart` is a URL for the rating, more app and privacy policy.
-- `wallpaper.dart` is a list of wallpaper.
+- `ads.dart` : Contains ads IDs.
+- `contact.dart` : Lists contact data.
+- `menu.dart` : Lists menu items and routes.
+- `theme.dart` : Contains App theme data.
+- `url.dart` : Contains URLs for rating, more apps, and privacy policy.
+- `wallpaper.dart`: Lists available wallpapers.
 
-another is an assets files in `assets` folder
+Asset files are stored in the assets folder, including avatars for contact images and wallpaper images.
 
-- `avatars` for a contact images
-- `videocall
+- `avatars` for a contact images.
+- `wallpaper` for a wallpaper images.

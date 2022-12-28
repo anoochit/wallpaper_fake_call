@@ -6,5 +6,5 @@ class MakecallController extends GetxController {
 // make call
   late Contact currentContact;
   Rx<bool> isCalling = false.obs;
-  Rx<bool> openCamera = false.obs;
+  Rx<bool> openCamera = true.obs;
 }

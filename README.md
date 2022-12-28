@@ -1,16 +1,19 @@
 # wallpaper_fake_call
 
-A new Flutter project.
+A wallpaper, fake video all with ads.
 
-## Getting Started
+## Configuration
 
-This project is a starting point for a Flutter application.
+The project has a configuration files in `lib/app/data/config/` as folowing
 
-A few resources to get you started if this is your first Flutter project:
+- `ads.dart` is ads ids.
+- `contact.dart` is a list contact data.
+- `menu.dart` is a list menu and route.
+- `theme.dart` is an App theme data.
+- `url.dart` is a URL for the rating, more app and privacy policy.
+- `wallpaper.dart` is a list of wallpaper.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+another is an assets files in `assets` folder
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- `avatars` for a contact images
+- `videocall

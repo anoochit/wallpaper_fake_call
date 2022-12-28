@@ -24,6 +24,7 @@ class _MakecallViewState extends State<MakecallView> {
   @override
   void initState() {
     super.initState();
+    isCameraAvailable();
   }
 
   @override
@@ -79,6 +80,16 @@ class _MakecallViewState extends State<MakecallView> {
         }
       }
     });
+  }
+
+  playRingtone() {
+    if (GetPlatform.isAndroid) {
+      // play Android ringtone
+
+    } else if (GetPlatform.isIOS) {
+      // play iOS ringtone
+
+    }
   }
 
   @override
@@ -148,7 +159,6 @@ class _MakecallViewState extends State<MakecallView> {
                             // accept call
                             InkWell(
                               onTap: () {
-                                isCameraAvailable();
                                 controller.isCalling.value = true;
                                 controller.update();
                               },

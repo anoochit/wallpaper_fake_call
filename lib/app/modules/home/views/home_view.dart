@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../data/config/menu.dart';
+import '../../../data/config/theme.dart';
 import '../../../data/config/url.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/ads_helper.dart';
@@ -97,7 +98,8 @@ class _HomeViewState extends State<HomeView> {
   Center buildHomeBody() {
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        // UPDATE : for menu spacer
+        mainAxisAlignment: menuSpacing,
         children: [
           // wallapager
           ElevatedButton(

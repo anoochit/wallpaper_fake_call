@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 import '../controllers/makecall_controller.dart';
 
@@ -22,9 +23,14 @@ class _MakecallViewState extends State<MakecallView> {
   CameraValue? cameraValue;
   CameraDescription? frontCamera;
 
+  late VideoPlayerController videoController;
+
+  MakecallController controller = Get.find<MakecallController>();
+
   @override
   void initState() {
     super.initState();
+    initVideo();
     isCameraAvailable();
   }
 
@@ -32,6 +38,11 @@ class _MakecallViewState extends State<MakecallView> {
   void dispose() {
     super.dispose();
     cameraController!.dispose();
+  }
+
+  initVideo() {
+    // init video
+    videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}');
   }
 
   isCameraAvailable() {
@@ -106,7 +117,10 @@ class _MakecallViewState extends State<MakecallView> {
           }
           return Stack(
             children: [
-              // background
+              // video
+              Container(),
+
+              // background image
               SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: Image.asset(

@@ -16,6 +16,7 @@ The project has configuration files in `lib/app/data/config/` as follows:
 Asset files are stored in the assets folder, including avatars for contact images and wallpaper images.
 
 - `avatars` for a contact images.
-- `wallpaper` for a wallpaper images.
+- `wallpapers` for a wallpaper images.
+- `videos` for a videos.
 
 The project developing with a Flutter 3.3.10, Dart 2.18.6, DevTools 2.15.0

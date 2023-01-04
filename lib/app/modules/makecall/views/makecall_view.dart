@@ -43,6 +43,7 @@ class _MakecallViewState extends State<MakecallView> {
   initVideo() {
     // init video
     videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}');
+    log('ratio : ${videoController.value.aspectRatio}');
   }
 
   isCameraAvailable() {

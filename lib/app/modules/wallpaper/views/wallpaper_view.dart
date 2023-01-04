@@ -125,7 +125,8 @@ class _WallpaperViewState extends State<WallpaperView> {
               ),
               itemBuilder: (context, index) {
                 return WallpaperItemWidget(
-                  wallpaperIndex: int.parse(controller.favoriteWallpapers[index]) + 1,
+                  wallpaperIndex:
+                      int.parse(controller.favoriteWallpapers[index]) + 1,
                 );
               },
             ),
@@ -146,7 +147,8 @@ class _WallpaperViewState extends State<WallpaperView> {
               crossAxisCount: 2,
               childAspectRatio: 2 / 3,
             ),
-            children: List.generate((wallpaperItems.length + numAdsInsert), (index) {
+            children:
+                List.generate((wallpaperItems.length + numAdsInsert), (index) {
               if ((index != 0) && ((index % 8) == 7)) {
                 return const AdsItemWidget();
               } else {
@@ -187,7 +189,8 @@ class WallpaperItemWidget extends StatelessWidget {
 
   final int wallpaperIndex;
 
-  final WallpaperItemViewController wallpaperItemViewController = Get.find<WallpaperItemViewController>();
+  final WallpaperItemViewController wallpaperItemViewController =
+      Get.find<WallpaperItemViewController>();
 
   @override
   Widget build(BuildContext context) {

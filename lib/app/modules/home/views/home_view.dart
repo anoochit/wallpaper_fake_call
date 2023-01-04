@@ -61,7 +61,8 @@ class _HomeViewState extends State<HomeView> {
       return;
     }
     interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) => log('ad onAdShowedFullScreenContent.'),
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          log('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
         log('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
@@ -162,7 +163,8 @@ class _HomeViewState extends State<HomeView> {
                 openUrl(url: menuItems[index].route);
               } else {
                 // if choose wallpaper or videocall show interstitial ads
-                if (menuItems[index].route.contains("wallpaper") || menuItems[index].route.contains("video")) {
+                if (menuItems[index].route.contains("wallpaper") ||
+                    menuItems[index].route.contains("video")) {
                   showInterstitialAd();
                 }
                 Get.toNamed(menuItems[index].route);

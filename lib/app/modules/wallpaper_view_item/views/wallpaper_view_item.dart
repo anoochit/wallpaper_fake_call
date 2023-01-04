@@ -25,7 +25,8 @@ class WallpaperItemView extends StatefulWidget {
   State<WallpaperItemView> createState() => _WallpaperItemViewState();
 }
 
-class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProviderStateMixin {
+class _WallpaperItemViewState extends State<WallpaperItemView>
+    with TickerProviderStateMixin {
   late Animation<double> _animation;
   late AnimationController _animationController;
 
@@ -37,7 +38,8 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
       vsync: this,
     );
 
-    final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+    final curvedAnimation =
+        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     requestPermission();
@@ -73,7 +75,8 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
                 ),
                 IconButton(
                   onPressed: () {
-                    if (controller.currentIndex.value < (wallpaperItems.length - 1)) {
+                    if (controller.currentIndex.value <
+                        (wallpaperItems.length - 1)) {
                       controller.currentIndex.value++;
                     }
                     log('current index = ${controller.currentIndex.value}');
@@ -110,14 +113,16 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
                       iconColor: Colors.white,
                       bubbleColor: Colors.blue,
                       icon: Icons.wallpaper,
-                      titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                      titleStyle:
+                          const TextStyle(fontSize: 16, color: Colors.white),
                       onPress: () async {
                         // load file
-                        final file =
-                            await rootBundle.load("assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
+                        final file = await rootBundle.load(
+                            "assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
 
                         // set wallpaper if Android able to set wallpaper
-                        await setWallpaper(controller, file, AsyncWallpaper.BOTH_SCREENS);
+                        await setWallpaper(
+                            controller, file, AsyncWallpaper.BOTH_SCREENS);
                       },
                     ),
                     Bubble(
@@ -125,14 +130,16 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
                       iconColor: Colors.white,
                       bubbleColor: Colors.blue,
                       icon: Icons.home,
-                      titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                      titleStyle:
+                          const TextStyle(fontSize: 16, color: Colors.white),
                       onPress: () async {
                         // load file
-                        final file =
-                            await rootBundle.load("assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
+                        final file = await rootBundle.load(
+                            "assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
 
                         // set wallpaper if Android able to set wallpaper
-                        await setWallpaper(controller, file, AsyncWallpaper.HOME_SCREEN);
+                        await setWallpaper(
+                            controller, file, AsyncWallpaper.HOME_SCREEN);
                       },
                     ),
                     Bubble(
@@ -140,14 +147,16 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
                       iconColor: Colors.white,
                       bubbleColor: Colors.blue,
                       icon: Icons.lock,
-                      titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                      titleStyle:
+                          const TextStyle(fontSize: 16, color: Colors.white),
                       onPress: () async {
                         // load file
-                        final file =
-                            await rootBundle.load("assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
+                        final file = await rootBundle.load(
+                            "assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
 
                         // set wallpaper if Android able to set wallpaper
-                        await setWallpaper(controller, file, AsyncWallpaper.LOCK_SCREEN);
+                        await setWallpaper(
+                            controller, file, AsyncWallpaper.LOCK_SCREEN);
                       },
                     ),
                     Bubble(
@@ -155,30 +164,39 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
                       iconColor: Colors.white,
                       bubbleColor: Colors.blue,
                       icon: Icons.star,
-                      titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                      titleStyle:
+                          const TextStyle(fontSize: 16, color: Colors.white),
                       onPress: () {
-                        WallpaperController wallpaperController = Get.find<WallpaperController>();
+                        WallpaperController wallpaperController =
+                            Get.find<WallpaperController>();
 
-                        final favoriteList = sharedPreferences.getStringList("favorite") ?? [];
+                        final favoriteList =
+                            sharedPreferences.getStringList("favorite") ?? [];
 
                         log('favorite list = ${favoriteList.length}');
 
                         if (favoriteList.isEmpty) {
                           favoriteList.add('${controller.currentIndex.value}');
-                          sharedPreferences.setStringList("favorite", favoriteList);
-                          wallpaperController.favoriteWallpapers.value = favoriteList;
+                          sharedPreferences.setStringList(
+                              "favorite", favoriteList);
+                          wallpaperController.favoriteWallpapers.value =
+                              favoriteList;
                           wallpaperController.update(['favorite']);
                           Get.snackbar('Info', 'Save to favorite');
                         } else {
                           log('${favoriteList.length}');
 
-                          final exist = favoriteList
-                              .firstWhereOrNull((element) => (element == '${controller.currentIndex.value}'));
+                          final exist = favoriteList.firstWhereOrNull(
+                              (element) => (element ==
+                                  '${controller.currentIndex.value}'));
                           if (exist == null) {
                             log('favorite item not exist, add to favorite');
-                            favoriteList.add('${controller.currentIndex.value}');
-                            sharedPreferences.setStringList("favorite", favoriteList);
-                            wallpaperController.favoriteWallpapers.value = favoriteList;
+                            favoriteList
+                                .add('${controller.currentIndex.value}');
+                            sharedPreferences.setStringList(
+                                "favorite", favoriteList);
+                            wallpaperController.favoriteWallpapers.value =
+                                favoriteList;
                             wallpaperController.update(['favorite']);
                             Get.snackbar('Info', 'Save to favorite');
                           } else {
@@ -206,8 +224,8 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
                 )
               : FloatingActionButton(
                   onPressed: () async {
-                    final file =
-                        await rootBundle.load("assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
+                    final file = await rootBundle.load(
+                        "assets/wallpapers/${wallpaperItems[controller.currentIndex.value]}");
 
                     // save image to gallery
                     final result = await saveToGallery(file, controller);
@@ -215,7 +233,8 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
                     if (result) {
                       Get.snackbar('Info', 'Save wallpaper image to gallery');
                     } else {
-                      Get.snackbar('Info', 'cannot save wallpaper image to gallery');
+                      Get.snackbar(
+                          'Info', 'cannot save wallpaper image to gallery');
                     }
                   },
                   child: const Icon(Icons.save),
@@ -225,12 +244,15 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
     );
   }
 
-  Future<void> setWallpaper(WallpaperItemViewController controller, ByteData file, int wallpaperLocation) async {
+  Future<void> setWallpaper(WallpaperItemViewController controller,
+      ByteData file, int wallpaperLocation) async {
     if (GetPlatform.isAndroid) {
       Directory appDocDir = await getApplicationDocumentsDirectory();
-      await File('${appDocDir.path}/wallpaper${controller.currentIndex.value}').writeAsBytes(file.buffer.asUint8List());
+      await File('${appDocDir.path}/wallpaper${controller.currentIndex.value}')
+          .writeAsBytes(file.buffer.asUint8List());
       log('file path = ${appDocDir.path}/wallpaper${controller.currentIndex.value}');
-      final wallpaperFile = '${appDocDir.path}/wallpaper${controller.currentIndex.value}';
+      final wallpaperFile =
+          '${appDocDir.path}/wallpaper${controller.currentIndex.value}';
 
       AsyncWallpaper.setWallpaperFromFile(
         filePath: wallpaperFile,
@@ -242,7 +264,8 @@ class _WallpaperItemViewState extends State<WallpaperItemView> with TickerProvid
     }
   }
 
-  Future<dynamic> saveToGallery(ByteData file, WallpaperItemViewController controller) async {
+  Future<dynamic> saveToGallery(
+      ByteData file, WallpaperItemViewController controller) async {
     final result = await ImageGallerySaver.saveImage(file.buffer.asUint8List(),
         quality: 100, name: 'wallpaper${controller.currentIndex.value}');
     log('${result['filePath']}');

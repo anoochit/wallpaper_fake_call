@@ -99,19 +99,26 @@ class _ContactWidgetState extends State<ContactWidget> {
                                 InkWell(
                                   onTap: () {
                                     // make a call
-                                    makecallController.currentContact = contactList[offset + i];
+                                    makecallController.currentContact =
+                                        contactList[offset + i];
                                     Get.toNamed(Routes.MAKECALL);
                                   },
                                   child: CircleAvatar(
-                                    radius: ((MediaQuery.of(context).size.width / 3) / 2) - 8,
-                                    backgroundImage: AssetImage('assets/avatars/${contactList[offset + i].avatar}'),
+                                    radius:
+                                        ((MediaQuery.of(context).size.width /
+                                                    3) /
+                                                2) -
+                                            8,
+                                    backgroundImage: AssetImage(
+                                        'assets/avatars/${contactList[offset + i].avatar}'),
                                   ),
                                 ),
                                 const SizedBox(height: 8.0),
                                 // text
                                 Text(
                                   contactList[offset + i].name,
-                                  style: Theme.of(context).textTheme.titleMedium,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                 )
                               ],
                             );

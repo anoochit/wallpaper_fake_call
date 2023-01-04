@@ -23,7 +23,7 @@ class _MakecallViewState extends State<MakecallView> {
   CameraValue? cameraValue;
   CameraDescription? frontCamera;
 
-  late VideoPlayerController videoController;
+  VideoPlayerController? videoController;
 
   MakecallController controller = Get.find<MakecallController>();
 
@@ -38,12 +38,23 @@ class _MakecallViewState extends State<MakecallView> {
   void dispose() {
     super.dispose();
     cameraController!.dispose();
+    videoController!.dispose();
   }
 
   initVideo() {
     // init video
-    videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}');
-    log('ratio : ${videoController.value.aspectRatio}');
+    //videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}')
+
+    videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}')
+      //videoController = VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+      ..initialize().then((_) {
+        setState(() {
+          // set video loop
+          videoController!.setLooping(true);
+          log('assets/videos/${controller.currentContact.video}');
+          log('ratio : ${videoController!.value.aspectRatio}');
+        });
+      });
   }
 
   isCameraAvailable() {
@@ -118,9 +129,6 @@ class _MakecallViewState extends State<MakecallView> {
           }
           return Stack(
             children: [
-              // video
-              Container(),
-
               // background image
               SizedBox(
                 height: MediaQuery.of(context).size.height,
@@ -137,6 +145,20 @@ class _MakecallViewState extends State<MakecallView> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.0),
+                        ),
+                      ),
+                    )
+                  : Container(),
+
+              // video
+              ((videoController != null) && (controller.isCalling.value))
+                  // if calling show video
+                  ? Container(
+                      color: Colors.black,
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: videoController!.value.aspectRatio,
+                          child: VideoPlayer(videoController!),
                         ),
                       ),
                     )
@@ -184,6 +206,9 @@ class _MakecallViewState extends State<MakecallView> {
                                 // stop ring tone
                                 FlutterRingtonePlayer.stop();
 
+                                // play video
+                                videoController!.play();
+
                                 // set state calling
                                 controller.isCalling.value = true;
                                 controller.update();
@@ -212,6 +237,9 @@ class _MakecallViewState extends State<MakecallView> {
                                   cameraController!.stopImageStream();
                                   //cameraController!.dispose();
                                 }
+
+                                // pause video
+                                videoController!.pause();
 
                                 // set state calling and open camera
                                 controller.isCalling.value = false;
@@ -261,6 +289,10 @@ class _MakecallViewState extends State<MakecallView> {
                                   cameraController!.stopImageStream();
                                   //cameraController!.dispose();
                                 }
+
+                                // pause video
+                                videoController!.pause();
+
                                 controller.openCamera.value = true;
                                 controller.isCalling.value = false;
                                 Get.back();

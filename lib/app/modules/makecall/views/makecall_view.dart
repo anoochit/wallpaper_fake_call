@@ -43,8 +43,6 @@ class _MakecallViewState extends State<MakecallView> {
 
   initVideo() {
     // init video
-    //videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}')
-
     videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}')
       //videoController = VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
       ..initialize().then((_) {

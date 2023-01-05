@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../services/ads_helper.dart';
 import '../controllers/makecall_controller.dart';
 
 class MakecallView extends StatefulWidget {
@@ -25,11 +27,17 @@ class _MakecallViewState extends State<MakecallView> {
 
   VideoPlayerController? videoController;
 
+  InterstitialAd? interstitialAd;
+  int numInterstitialLoadAttempts = 0;
+  int maxFailedLoadAttempts = 3;
+
   MakecallController controller = Get.find<MakecallController>();
 
   @override
   void initState() {
     super.initState();
+    initGoogleMobileAds();
+    createInterstitialAd();
     initVideo();
     isCameraAvailable();
   }
@@ -37,10 +45,15 @@ class _MakecallViewState extends State<MakecallView> {
   @override
   void dispose() {
     super.dispose();
+
     cameraController!.dispose();
     videoController!.dispose();
+
+    controller.isCalling.value = false;
+    controller.openCamera.value = false;
   }
 
+  // initial video playback
   initVideo() {
     // init video
     videoController = VideoPlayerController.asset('assets/videos/${controller.currentContact.video}')
@@ -54,6 +67,7 @@ class _MakecallViewState extends State<MakecallView> {
       });
   }
 
+  // check camera as available
   isCameraAvailable() {
     // check available camera
     availableCameras().then((listCameraDescription) {
@@ -85,6 +99,9 @@ class _MakecallViewState extends State<MakecallView> {
             // setstate
             // setState(() {
             isCameraInitialize = true;
+
+            // show camera as default
+            controller.openCamera.value = true;
             // });
           }).catchError((Object e) {
             // show error
@@ -104,6 +121,7 @@ class _MakecallViewState extends State<MakecallView> {
     });
   }
 
+  // play ring tone
   playRingtone() {
     if (GetPlatform.isAndroid) {
       FlutterRingtonePlayer.play(
@@ -113,6 +131,58 @@ class _MakecallViewState extends State<MakecallView> {
         asAlarm: true,
       );
     }
+  }
+
+  // create interstitial ads unit
+  void createInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          log('$ad loaded');
+          interstitialAd = ad;
+          numInterstitialLoadAttempts = 0;
+          interstitialAd!.setImmersiveMode(true);
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          log('InterstitialAd failed to load: $error.');
+          numInterstitialLoadAttempts += 1;
+          interstitialAd = null;
+          if (numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+            createInterstitialAd();
+          }
+        },
+      ),
+    );
+  }
+
+  // show interstitial ads
+  void showInterstitialAd() {
+    if (interstitialAd == null) {
+      log('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) => log('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        log('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        log('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        createInterstitialAd();
+      },
+    );
+    interstitialAd!.show();
+    interstitialAd = null;
+  }
+
+  // Initialize Google Mobile Ads SDK
+  Future<InitializationStatus> initGoogleMobileAds() {
+    return MobileAds.instance.initialize();
   }
 
   @override
@@ -211,6 +281,7 @@ class _MakecallViewState extends State<MakecallView> {
     );
   }
 
+  // build on call buttons
   Padding buildInCall(MakecallController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 128.0),
@@ -235,6 +306,9 @@ class _MakecallViewState extends State<MakecallView> {
             // end call button
             InkWell(
               onTap: () {
+                // show interstitial ads when end call
+                showInterstitialAd();
+
                 if (cameraController != null) {
                   cameraController!.stopImageStream();
                   //cameraController!.dispose();
@@ -265,12 +339,17 @@ class _MakecallViewState extends State<MakecallView> {
               onTap: () {
                 controller.openCamera.value = !controller.openCamera.value;
                 controller.update();
+
+                if (controller.openCamera.value == false) {
+                  // show interstitial ads when end call
+                  showInterstitialAd();
+                }
               },
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.grey,
                 child: Icon(
-                  Icons.video_call,
+                  (controller.openCamera.value) ? Icons.videocam_off : Icons.videocam,
                   size: 48.0,
                   color: Colors.white,
                 ),
@@ -282,6 +361,7 @@ class _MakecallViewState extends State<MakecallView> {
     );
   }
 
+  // build not call buttons
   Padding buildNotCall(MakecallController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 128.0),

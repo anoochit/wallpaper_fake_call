@@ -33,36 +33,38 @@ class _HomeViewState extends State<HomeView> {
     createInterstitialAd();
   }
 
+  // create interstitial ads unit
   void createInterstitialAd() {
     InterstitialAd.load(
-        adUnitId: AdHelper.interstitialAdUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (InterstitialAd ad) {
-            log('$ad loaded');
-            interstitialAd = ad;
-            numInterstitialLoadAttempts = 0;
-            interstitialAd!.setImmersiveMode(true);
-          },
-          onAdFailedToLoad: (LoadAdError error) {
-            log('InterstitialAd failed to load: $error.');
-            numInterstitialLoadAttempts += 1;
-            interstitialAd = null;
-            if (numInterstitialLoadAttempts < maxFailedLoadAttempts) {
-              createInterstitialAd();
-            }
-          },
-        ));
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          log('$ad loaded');
+          interstitialAd = ad;
+          numInterstitialLoadAttempts = 0;
+          interstitialAd!.setImmersiveMode(true);
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          log('InterstitialAd failed to load: $error.');
+          numInterstitialLoadAttempts += 1;
+          interstitialAd = null;
+          if (numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+            createInterstitialAd();
+          }
+        },
+      ),
+    );
   }
 
+  // show interstitial ads
   void showInterstitialAd() {
     if (interstitialAd == null) {
       log('Warning: attempt to show interstitial before loaded.');
       return;
     }
     interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          log('ad onAdShowedFullScreenContent.'),
+      onAdShowedFullScreenContent: (InterstitialAd ad) => log('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
         log('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
@@ -78,6 +80,11 @@ class _HomeViewState extends State<HomeView> {
     interstitialAd = null;
   }
 
+  // Initialize Google Mobile Ads SDK
+  Future<InitializationStatus> initGoogleMobileAds() {
+    return MobileAds.instance.initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,11 +95,6 @@ class _HomeViewState extends State<HomeView> {
       body: buildHomeBody(),
       drawer: buildDrawerMenu(),
     );
-  }
-
-  // Initialize Google Mobile Ads SDK
-  Future<InitializationStatus> initGoogleMobileAds() {
-    return MobileAds.instance.initialize();
   }
 
   // home body
@@ -163,8 +165,7 @@ class _HomeViewState extends State<HomeView> {
                 openUrl(url: menuItems[index].route);
               } else {
                 // if choose wallpaper or videocall show interstitial ads
-                if (menuItems[index].route.contains("wallpaper") ||
-                    menuItems[index].route.contains("video")) {
+                if (menuItems[index].route.contains("wallpaper") || menuItems[index].route.contains("video")) {
                   showInterstitialAd();
                 }
                 Get.toNamed(menuItems[index].route);

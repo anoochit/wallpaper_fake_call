@@ -19,7 +19,7 @@ Asset files are stored in the assets folder, including avatars for contact image
 - `wallpapers` for a wallpaper images.
 - `videos` for a videos.
 
-Build release
+## Build release on Andorid an iOS
 
 - [Build release on Android](https://docs.flutter.dev/deployment/android)
 - [Build release on iOS](https://docs.flutter.dev/deployment/ios)

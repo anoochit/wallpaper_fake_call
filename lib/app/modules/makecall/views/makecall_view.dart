@@ -190,143 +190,10 @@ class _MakecallViewState extends State<MakecallView> {
               // call and reject button
               (!controller.isCalling.value)
                   // not call
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 128.0),
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // accept call
-                            InkWell(
-                              onTap: () {
-                                // stop ring tone
-                                FlutterRingtonePlayer.stop();
-
-                                // play video
-                                videoController!.play();
-
-                                // set state calling
-                                controller.isCalling.value = true;
-                                controller.update();
-                              },
-                              child: const CircleAvatar(
-                                radius: 40,
-                                backgroundColor: Colors.green,
-                                child: Icon(
-                                  Icons.call,
-                                  size: 48.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            // end call
-                            InkWell(
-                              onTap: () {
-                                // stop ring tone
-                                FlutterRingtonePlayer.stop();
-
-                                // dispose camera controller
-                                if (cameraController != null) {
-                                  cameraController!.stopImageStream();
-                                  //cameraController!.dispose();
-                                }
-
-                                // pause video
-                                videoController!.pause();
-
-                                // set state calling and open camera
-                                controller.isCalling.value = false;
-                                controller.openCamera.value = true;
-                                Get.back();
-                              },
-                              child: const CircleAvatar(
-                                radius: 40,
-                                backgroundColor: Colors.red,
-                                child: Icon(
-                                  Icons.call_end,
-                                  size: 48.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                  ? buildNotCall(controller)
                   :
                   // in calling
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 128.0),
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // mic
-                            const CircleAvatar(
-                              radius: 40,
-                              backgroundColor: Colors.grey,
-                              child: Icon(
-                                Icons.mic,
-                                size: 48.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            // end call
-                            InkWell(
-                              onTap: () {
-                                if (cameraController != null) {
-                                  cameraController!.stopImageStream();
-                                  //cameraController!.dispose();
-                                }
-
-                                // pause video
-                                videoController!.pause();
-
-                                controller.openCamera.value = true;
-                                controller.isCalling.value = false;
-                                Get.back();
-                              },
-                              child: const CircleAvatar(
-                                radius: 40,
-                                backgroundColor: Colors.red,
-                                child: Icon(
-                                  Icons.call_end,
-                                  size: 48.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            // show camera
-                            InkWell(
-                              onTap: () {
-                                controller.openCamera.value = !controller.openCamera.value;
-                                controller.update();
-                              },
-                              child: const CircleAvatar(
-                                radius: 40,
-                                backgroundColor: Colors.grey,
-                                child: Icon(
-                                  Icons.video_call,
-                                  size: 48.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  buildInCall(controller),
 
               // canera preview
               ((controller.openCamera.value == true) && (cameraController != null))
@@ -340,6 +207,147 @@ class _MakecallViewState extends State<MakecallView> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  Padding buildInCall(MakecallController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 128.0),
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // mic button
+            const CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.grey,
+              child: Icon(
+                Icons.mic,
+                size: 48.0,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(
+              width: 16.0,
+            ),
+            // end call button
+            InkWell(
+              onTap: () {
+                if (cameraController != null) {
+                  cameraController!.stopImageStream();
+                  //cameraController!.dispose();
+                }
+
+                // pause video
+                videoController!.pause();
+
+                controller.openCamera.value = true;
+                controller.isCalling.value = false;
+                Get.back();
+              },
+              child: const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.red,
+                child: Icon(
+                  Icons.call_end,
+                  size: 48.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 16.0,
+            ),
+            // show camera button
+            InkWell(
+              onTap: () {
+                controller.openCamera.value = !controller.openCamera.value;
+                controller.update();
+              },
+              child: const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.grey,
+                child: Icon(
+                  Icons.video_call,
+                  size: 48.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding buildNotCall(MakecallController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 128.0),
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // accept call button
+            InkWell(
+              onTap: () {
+                // stop ring tone
+                FlutterRingtonePlayer.stop();
+
+                // play video
+                videoController!.play();
+
+                // set state calling
+                controller.isCalling.value = true;
+                controller.update();
+              },
+              child: const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.green,
+                child: Icon(
+                  Icons.call,
+                  size: 48.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 16.0,
+            ),
+            // end call button
+            InkWell(
+              onTap: () {
+                // stop ring tone
+                FlutterRingtonePlayer.stop();
+
+                // dispose camera controller
+                if (cameraController != null) {
+                  cameraController!.stopImageStream();
+                  //cameraController!.dispose();
+                }
+
+                // pause video
+                videoController!.pause();
+
+                // set state calling and open camera
+                controller.isCalling.value = false;
+                controller.openCamera.value = true;
+                Get.back();
+              },
+              child: const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.red,
+                child: Icon(
+                  Icons.call_end,
+                  size: 48.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

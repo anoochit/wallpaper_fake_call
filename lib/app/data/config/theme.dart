@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const menuSpacing = MainAxisAlignment.spaceEvenly;
+const wallpapperTabMenuBackgroundColor = Colors.red;
 
 final themeData = ThemeData(
   // color scheme for whole app
@@ -27,7 +29,12 @@ final themeData = ThemeData(
 
   // appbar theme
   appBarTheme: const AppBarTheme(
-    // background colors
+    // background color
     backgroundColor: Colors.orange,
+    // text and icon color
+    foregroundColor: Colors.green,
   ),
+
+  // app font style
+  textTheme: GoogleFonts.pacificoTextTheme(),
 );

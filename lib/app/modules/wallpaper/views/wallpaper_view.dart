@@ -11,6 +11,7 @@ import 'package:wallpaper_fake_call/app/routes/app_pages.dart';
 import 'package:wallpaper_fake_call/app/services/launcher.dart';
 import 'package:wallpaper_fake_call/app/widgets/banner.dart';
 
+import '../../../data/config/theme.dart';
 import '../../../data/config/url.dart';
 import '../controllers/wallpaper_controller.dart';
 
@@ -56,37 +57,40 @@ class _WallpaperViewState extends State<WallpaperView> {
       body: Column(
         children: [
           // menu
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                onPressed: () {
-                  // open wallpaper view
-                  setState(() {
-                    stackIndex = 0;
-                    title = "Wallpaper";
-                  });
-                },
-                child: const Text("Wallpaper"),
-              ),
-              TextButton(
-                onPressed: () {
-                  // open favorite view
-                  setState(() {
-                    stackIndex = 1;
-                    title = "Favorite";
-                  });
-                },
-                child: const Text("Favorite"),
-              ),
-              TextButton(
-                onPressed: () {
-                  // open more app url
-                  openUrl(url: moreAppUrl);
-                },
-                child: const Text("More Apps"),
-              ),
-            ],
+          Container(
+            color: wallpapperTabMenuBackgroundColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    // open wallpaper view
+                    setState(() {
+                      stackIndex = 0;
+                      title = "Wallpaper";
+                    });
+                  },
+                  child: const Text("Wallpaper"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // open favorite view
+                    setState(() {
+                      stackIndex = 1;
+                      title = "Favorite";
+                    });
+                  },
+                  child: const Text("Favorite"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // open more app url
+                    openUrl(url: moreAppUrl);
+                  },
+                  child: const Text("More Apps"),
+                ),
+              ],
+            ),
           ),
 
           // body
@@ -125,8 +129,7 @@ class _WallpaperViewState extends State<WallpaperView> {
               ),
               itemBuilder: (context, index) {
                 return WallpaperItemWidget(
-                  wallpaperIndex:
-                      int.parse(controller.favoriteWallpapers[index]) + 1,
+                  wallpaperIndex: int.parse(controller.favoriteWallpapers[index]) + 1,
                 );
               },
             ),
@@ -147,8 +150,7 @@ class _WallpaperViewState extends State<WallpaperView> {
               crossAxisCount: 2,
               childAspectRatio: 2 / 3,
             ),
-            children:
-                List.generate((wallpaperItems.length + numAdsInsert), (index) {
+            children: List.generate((wallpaperItems.length + numAdsInsert), (index) {
               if ((index != 0) && ((index % 8) == 7)) {
                 return const AdsItemWidget();
               } else {
@@ -189,8 +191,7 @@ class WallpaperItemWidget extends StatelessWidget {
 
   final int wallpaperIndex;
 
-  final WallpaperItemViewController wallpaperItemViewController =
-      Get.find<WallpaperItemViewController>();
+  final WallpaperItemViewController wallpaperItemViewController = Get.find<WallpaperItemViewController>();
 
   @override
   Widget build(BuildContext context) {
